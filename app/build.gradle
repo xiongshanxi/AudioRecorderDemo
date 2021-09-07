@@ -18,6 +18,8 @@ android {
             buildPython "E:/anaconda3/envs/py36torch040/python.exe"
             pip {
                 install "numpy"
+                install "requests"
+                install "Beautifulsoup4"
             }
         }
     }

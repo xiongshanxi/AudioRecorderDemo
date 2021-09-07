@@ -11,40 +11,26 @@ import com.zlw.main.recorderlib.RecordManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ *Android和Python交互
+ */
 public class MainActivity extends AppCompatActivity {
-    private Button button;
-    private AudioRecorder mAudioRecorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initPython();
-        Python py = Python.getInstance();
-
-        button = findViewById(R.id.text_id);
-        RecordManager.getInstance().init(MyApp.getInstance(), false);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAudioRecorder.startRecord();
-            }
-        });
-        mAudioRecorder = new AudioRecorder(this);
-        mAudioRecorder.createDefaultAudio();
-        mAudioRecorder.setRecordStreamListener(new AudioRecorder.RecordStreamListener() {
-
-            @Override
-            public void onRecording(short[] bytes, int offset, int length) {
-            }
-
-            @Override
-            public void finishRecord() {
-                Log.i("TAG===", "finishRecord");
-            }
-        });
+        callPythonCodeFromLib();
     }
+
+    void callPythonCodeFromLib(){
+        Python py = Python.getInstance();
+        py.getModule("callPyLib").callAttr("get_http");
+        py.getModule("callPyLib").callAttr("print_numpy");
+        py.getModule("callPyLib").callAttr("Love");
+    }
+
 
     // 初始化Python环境
     void initPython() {
